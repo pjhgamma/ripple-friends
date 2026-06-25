@@ -1,6 +1,6 @@
 ﻿using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Vanilla;
+namespace RippleFriends.Hooks.Iterators;
 
 internal class MoonHooks : BaseHooks
 {

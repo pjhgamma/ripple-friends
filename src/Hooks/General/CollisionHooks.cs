@@ -2,7 +2,7 @@ using MonoMod.Cil;
 using static RippleFriends.Core.ILUtils;
 using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Vanilla;
+namespace RippleFriends.Hooks.General;
 
 internal class CollisionHooks : BaseHooks
 {

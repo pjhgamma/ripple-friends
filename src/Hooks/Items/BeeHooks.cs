@@ -4,7 +4,7 @@ using static RippleFriends.Core.FriendTracker;
 using static RippleFriends.Core.OwnerTracker;
 using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Vanilla;
+namespace RippleFriends.Hooks.Items;
 
 internal class BeeHooks : BaseHooks
 {

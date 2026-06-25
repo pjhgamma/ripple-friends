@@ -2,7 +2,7 @@ using static RippleFriends.Core.OwnerTracker;
 using static RippleFriends.Core.PlayerUtils;
 using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Vanilla;
+namespace RippleFriends.Hooks.Items;
 
 internal class MushroomHooks : BaseHooks
 {

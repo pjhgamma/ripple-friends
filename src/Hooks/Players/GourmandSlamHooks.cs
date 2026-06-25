@@ -2,7 +2,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Downpour;
+namespace RippleFriends.Hooks.Players;
 
 internal class GourmandSlamHooks : DownpourHooks
 {

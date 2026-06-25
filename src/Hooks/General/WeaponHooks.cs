@@ -1,7 +1,7 @@
 using static RippleFriends.Core.FriendTracker;
 using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Vanilla;
+namespace RippleFriends.Hooks.General;
 
 internal class WeaponHooks : BaseHooks
 {

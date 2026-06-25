@@ -15,7 +15,7 @@ internal abstract class RemixMenuBuilder : OptionInterface
     private OpTab? _currentTab;
     private Vector2 _pos = new();
 
-    private int _columns = 4;
+    private int _columns = 3;
     private float _currentColumn = 0f;
     private float ElementWidth => Width / _columns;
 
@@ -50,7 +50,7 @@ internal abstract class RemixMenuBuilder : OptionInterface
         _columns = columns;
     }
 
-    protected void AddLabel(string text, FLabelAlignment alignment = FLabelAlignment.Left, bool bigText = false)
+    protected void AddLabel(string text, FLabelAlignment alignment = FLabelAlignment.Center, bool bigText = false)
     {
         if (_currentTab == null)
         {
@@ -105,18 +105,18 @@ internal abstract class RemixMenuBuilder : OptionInterface
 
         string desc = Translate(configurable.info?.description ?? "");
 
-        OpLabel label = new(
-            new Vector2(_pos.x, _pos.y - _spacing * 0.5f),
-            new(ElementWidth - _spacing - _gap, _spacing),
-            Translate(text ?? ""),
-            FLabelAlignment.Right
+        OpCheckBox checkBox = new(
+            configurable,
+            new Vector2(_pos.x, _pos.y - _spacing * 0.5f)
         )
         {
             description = desc
         };
-        OpCheckBox checkBox = new(
-            configurable,
-            new Vector2(_pos.x + ElementWidth - _spacing, _pos.y - _spacing * 0.5f)
+        OpLabel label = new(
+            new Vector2(_pos.x + _spacing + _gap, _pos.y - _spacing * 0.5f),
+            new(ElementWidth - _spacing - _gap, _spacing),
+            Translate(text ?? ""),
+            FLabelAlignment.Left
         )
         {
             description = desc
@@ -207,31 +207,19 @@ internal class RemixMenu : RemixMenuBuilder
 {
     public static readonly RemixMenu Instance = new();
 
+    public RemixMenu()
+    {
+        Config.Bind(this);
+    }
+
     public override void Initialize()
     {
         base.Initialize();
 
-        List<OpTab> enabledTabs = [];
         OpTab generalTab = new(this, Translate("General"));
-        OpTab vanillaTab = new(this, Translate("Vanilla"));
-        OpTab? downpourTab = null;
-        OpTab? watcherTab = null;
+        OpTab interactionsTab = new(this, Translate("Interactions"));
 
-        enabledTabs.Add(generalTab);
-        enabledTabs.Add(vanillaTab);
-        if (ModManager.MSC)
-        {
-            downpourTab = new(this, Translate("Downpour"));
-            enabledTabs.Add(downpourTab);
-        }
-        if (ModManager.Watcher)
-        {
-            watcherTab = new(this, Translate("Watcher"));
-            enabledTabs.Add(watcherTab);
-        }
-        Tabs = [.. enabledTabs];
-
-        SetColumns(4);
+        Tabs = [generalTab, interactionsTab];
 
         SetCurrentTab(generalTab);
 
@@ -239,7 +227,7 @@ internal class RemixMenu : RemixMenuBuilder
         AddLabel("Ripple friends do not affect each other.");
         AddLabel("This option itself does nothing, but targets to be affected by the other options.");
         AddLabel("The Ripple Friends relationship applies bidirectionally, excluding oneself.");
-        AddCheckBox(Config.FriendPlayer, "Player");
+        AddCheckBox(Config.FriendPlayer, "Players");
         AddCheckBox(Config.FriendCreature, "Friendly Creatures");
         AddCheckBox(Config.FriendNeutralCreature, "Neutral Creatures");
         AddCheckBox(Config.FriendIterator, "Iterators");
@@ -251,17 +239,25 @@ internal class RemixMenu : RemixMenuBuilder
         AddCheckBox(Config.Weapon, "Weapons");
         AddCheckBox(Config.Explosion, "Explosions");
 
-        SetCurrentTab(vanillaTab);
+        SetCurrentTab(interactionsTab);
 
-        AddTitle("Player Actions");
+        SetColumns(4);
+
+        AddTitle("Players");
         var GrabPlayerCheckBox = AddCheckBox(Config.GrabPlayer, "Grab Player");
-        AddFloatSlider(Config.GrabPlayerTime, span: 3f, master: GrabPlayerCheckBox);
+        AddFloatSlider(Config.GrabPlayerTime, span: 2f, master: GrabPlayerCheckBox);
         AddCheckBox(Config.NoStealing, "No Stealing");
-        AddCheckBox(Config.Pebbles, "Pebbles");
-        AddCheckBox(Config.Moon, "Moon");
-        AddCheckBox(Config.Mushroom, "Mushroom");
 
-        AddTitle("Interactions");
+        if (ModManager.MSC)
+        {
+            AddCheckBox(Config.GourmandSlam, "Gourmand Slam");
+            AddCheckBox(Config.ArtificerParry, "Artificer Parry");
+            AddCheckBox(Config.SaintTongue, "Saint Tongue");
+            AddCheckBox(Config.SaintAttunement, "Saint Attunement");
+        }
+
+        AddTitle("Items");
+        AddCheckBox(Config.Mushroom, "Mushroom");
         AddCheckBox(Config.FirecrackerPlant, "Cherrybomb");
         AddCheckBox(Config.Bee, "Beehive");
         AddCheckBox(Config.JellyFish, "Jellyfish");
@@ -270,26 +266,20 @@ internal class RemixMenu : RemixMenuBuilder
 
         if (ModManager.MSC)
         {
-            SetCurrentTab(downpourTab);
-
-            AddTitle("Player Actions");
-            AddCheckBox(Config.GourmandSlam, "Gourmand Slam");
-            AddCheckBox(Config.ArtificerParry, "Artificer Parry");
-            AddCheckBox(Config.SaintTongue, "Saint Tongue");
-            AddCheckBox(Config.SaintAttunement, "Saint Attunement");
-
-            AddTitle("Interactions");
             AddCheckBox(Config.FireEgg, "Fire Egg");
             AddCheckBox(Config.SingularityBomb, "Singularity Bomb");
         }
 
         if (ModManager.Watcher)
         {
-            SetCurrentTab(watcherTab);
-
-            AddTitle("Interactions");
             AddCheckBox(Config.Pomegranate, "Pomegranate");
             AddCheckBox(Config.Frog, "Frog");
         }
+
+        SetColumns(2);
+
+        AddTitle("Iterators");
+        AddCheckBox(Config.Pebbles, "Pebbles");
+        AddCheckBox(Config.Moon, "Moon");
     }
 }

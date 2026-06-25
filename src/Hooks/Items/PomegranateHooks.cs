@@ -2,7 +2,7 @@ using MonoMod.Cil;
 using static RippleFriends.Core.ILUtils;
 using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Watcher;
+namespace RippleFriends.Hooks.Items;
 
 internal class PomegranateHooks : WatcherHooks
 {

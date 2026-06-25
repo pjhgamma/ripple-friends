@@ -1,17 +1,16 @@
-using static RippleFriends.Core.FriendTracker;
-using static RippleFriends.Core.OwnerTracker;
+using static RippleFriends.Core.PlayerUtils;
 using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Vanilla;
+namespace RippleFriends.Hooks.Players;
 
-internal class FriendStealHooks : BaseHooks
+internal class GrabPlayerHooks : BaseHooks
 {
-    protected override bool IsOptionEnabled => Config.NoStealing.Value;
+    protected override bool IsOptionEnabled => Config.GrabPlayer.Value;
 
     [HookPatch(typeof(On.Player), nameof(On.Player.CanIPickThisUp))]
     private static bool On_Player_CanIPickThisUp(On.Player.orig_CanIPickThisUp orig, Player self, PhysicalObject obj)
     {
-        if (IsFriend(self, GetGrabber(obj)))
+        if (obj is Player player && !player.dead && !IsIdlePlayer(player, Config.GrabPlayerTime.Value))
         {
             return false;
         }

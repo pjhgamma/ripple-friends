@@ -2,7 +2,7 @@ using MonoMod.Cil;
 using static RippleFriends.Core.ILUtils;
 using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Downpour;
+namespace RippleFriends.Hooks.Items;
 
 internal class SingularityBombHooks : DownpourHooks
 {

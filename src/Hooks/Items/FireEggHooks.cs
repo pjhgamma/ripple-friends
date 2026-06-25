@@ -3,7 +3,7 @@ using MoreSlugcats;
 using static RippleFriends.Core.ILUtils;
 using RippleFriends.Options;
 
-namespace RippleFriends.Hooks.Downpour;
+namespace RippleFriends.Hooks.Items;
 
 internal class FireEggHooks : DownpourHooks
 {

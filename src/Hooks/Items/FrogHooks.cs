@@ -5,7 +5,7 @@ using static RippleFriends.Core.ILUtils;
 using RippleFriends.Options;
 using Watcher;
 
-namespace RippleFriends.Hooks.Watcher;
+namespace RippleFriends.Hooks.Items;
 
 internal class FrogHooks : WatcherHooks
 {
