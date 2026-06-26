@@ -13,7 +13,7 @@ internal class SaintTongueHooks : DownpourHooks
     {
         IL_Tongue<Player.Tongue>(
             il,
-            tongue => tongue.player
+            tongue => tongue?.player
         );
     }
 }

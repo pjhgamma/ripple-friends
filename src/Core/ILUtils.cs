@@ -83,7 +83,7 @@ internal static class ILUtils
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate((SharedPhysics.CollisionResult collisionResult, T tongue) =>
             {
-                if (IsFriend(getOwner(tongue), collisionResult.chunk.owner))
+                if (IsFriend(getOwner(tongue), collisionResult.chunk?.owner))
                 {
                     return new(null, null, null, false, default);
                 }
