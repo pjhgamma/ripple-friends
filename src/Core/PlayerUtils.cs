@@ -15,6 +15,6 @@ internal static class PlayerUtils
 
     public static bool IsIdlePlayer(Player player, float seconds)
     {
-        return player.touchedNoInputCounter >= seconds * 40f;
+        return player.touchedNoInputCounter > seconds * 40f;
     }
 }

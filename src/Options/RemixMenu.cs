@@ -28,11 +28,27 @@ internal abstract class RemixMenuBuilder : OptionInterface
         AddNewLine();
     }
 
+    protected void SetColumns(int columns)
+    {
+        ResetColumn();
+
+        _columns = columns;
+    }
+
     protected void AddNewLine(float spacingModifier = 1f)
     {
         _pos.x = MarginX.x;
         _pos.y -= spacingModifier * _spacing;
         _currentColumn = 0;
+    }
+
+    protected void AddNewColumn(float span)
+    {
+        _pos.x += ElementWidth * span;
+        if ((_currentColumn += span) > _columns + 0.5f)
+        {
+            ResetColumn();
+        }
     }
 
     protected void ResetColumn()
@@ -41,13 +57,6 @@ internal abstract class RemixMenuBuilder : OptionInterface
         {
             AddNewLine(1.5f);
         }
-    }
-
-    protected void SetColumns(int columns)
-    {
-        ResetColumn();
-
-        _columns = columns;
     }
 
     protected void AddLabel(string text, FLabelAlignment alignment = FLabelAlignment.Center, bool bigText = false)
@@ -161,10 +170,10 @@ internal abstract class RemixMenuBuilder : OptionInterface
         string desc = Translate(configurable.info?.description ?? "");
 
         OpLabel label = new(
-            new Vector2(_pos.x, _pos.y - _spacing * 0.5f),
+            new Vector2(_pos.x + _spacing + _gap, _pos.y - _spacing * 0.5f),
             new(ElementWidth - _spacing - _gap, _spacing),
             Translate(text ?? ""),
-            FLabelAlignment.Right
+            FLabelAlignment.Left
         )
         {
             description = desc
@@ -172,7 +181,7 @@ internal abstract class RemixMenuBuilder : OptionInterface
         OpFloatSlider slider = new(
             configurable,
             new Vector2(_pos.x + _gap + (text != null ? ElementWidth : 0), _pos.y - _spacing * 0.5f - 3f),
-            (int)(ElementWidth * span - _gap * 2f - (text != null ? ElementWidth - _spacing : 0))
+            (int)(ElementWidth * span - _gap * 2f - (text != null ? ElementWidth : 0))
         )
         {
             description = desc,
@@ -218,10 +227,13 @@ internal class RemixMenu : RemixMenuBuilder
 
         OpTab generalTab = new(this, Translate("General"));
         OpTab interactionsTab = new(this, Translate("Interactions"));
+        OpTab assistsTab = new(this, Translate("Assists"));
 
-        Tabs = [generalTab, interactionsTab];
+        Tabs = [generalTab, interactionsTab, assistsTab];
 
         SetCurrentTab(generalTab);
+
+        SetColumns(3);
 
         AddLabel("Ripple Friends", FLabelAlignment.Center, bigText: true);
         AddLabel("Ripple friends do not affect each other.");
@@ -247,7 +259,6 @@ internal class RemixMenu : RemixMenuBuilder
         var GrabPlayerCheckBox = AddCheckBox(Config.GrabPlayer, "Grab Player");
         AddFloatSlider(Config.GrabPlayerTime, span: 2f, master: GrabPlayerCheckBox);
         AddCheckBox(Config.NoStealing, "No Stealing");
-
         if (ModManager.MSC)
         {
             AddCheckBox(Config.GourmandSlam, "Gourmand Slam");
@@ -263,13 +274,11 @@ internal class RemixMenu : RemixMenuBuilder
         AddCheckBox(Config.JellyFish, "Jellyfish");
         AddCheckBox(Config.Snail, "Snail");
         AddCheckBox(Config.TubeWorm, "Grappling Worm");
-
         if (ModManager.MSC)
         {
             AddCheckBox(Config.FireEgg, "Fire Egg");
             AddCheckBox(Config.SingularityBomb, "Singularity Bomb");
         }
-
         if (ModManager.Watcher)
         {
             AddCheckBox(Config.Pomegranate, "Pomegranate");
@@ -281,5 +290,24 @@ internal class RemixMenu : RemixMenuBuilder
         AddTitle("Iterators");
         AddCheckBox(Config.Pebbles, "Pebbles");
         AddCheckBox(Config.Moon, "Moon");
+
+        SetCurrentTab(assistsTab);
+
+        SetColumns(4);
+
+        AddTitle("Gates");
+        var RegionGateCheckBox = AddCheckBox(Config.RegionGate, "Karma Gate");
+        AddFloatSlider(Config.RegionGateTile, span: 3f, max: 8f, master: RegionGateCheckBox);
+        AddNewColumn(1f);
+        AddFloatSlider(Config.RegionGateTime, span: 1.5f, master: RegionGateCheckBox);
+        AddFloatSlider(Config.RegionGateForceTime, span: 1.5f, master: RegionGateCheckBox);
+        if (ModManager.Watcher)
+        {
+            var WarpPointCheckBox = AddCheckBox(Config.WarpPoint, "Warp Point");
+            AddFloatSlider(Config.WarpPointRadius, span: 3f, max: 6f, master: WarpPointCheckBox);
+            AddNewColumn(1f);
+            AddFloatSlider(Config.WarpPointTime, span: 1.5f, master: WarpPointCheckBox);
+            AddFloatSlider(Config.WarpPointForceTime, span: 1.5f, master: WarpPointCheckBox);
+        }
     }
 }

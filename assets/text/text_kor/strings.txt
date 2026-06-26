@@ -80,3 +80,19 @@ Pebbles|조약돌
 Pebbles cannot kill players.|조약돌이 플레이어를 죽일 수 없습니다.
 Moon|달
 Players cannot steal Moon's neurons.|플레이어가 달의 뉴런을 훔칠 수 없습니다.
+
+Assists|보조
+
+Gates|게이트
+
+Karma Gate|카르마 게이트
+The karma gate waits for Ripple Friends in the room and will not activate while any player is entering control inputs.|카르마 게이트는 방 안에 있는 잔물결 친구를 기다리며, 플레이어가 조작을 입력하는 동안에는 작동하지 않습니다.
+Sets the range within which the karma gate begins to close. A value of 0 represents the middle position of the karma gate, and 8 represents the shutter position on the opposite side.|카르마 게이트가 닫히기 시작하는 범위를 설정합니다. 0일 때는 카르마 게이트의 중간 위치이며, 8일 때는 카르마 게이트 건너편의 셔터 위치입니다.
+Sets the minimum time (in seconds) of no control input from the player required for the karma gate to activate.|카르마 게이트가 작동하기 위해 필요한 플레이어의 최소 조작 미입력 시간(초)을 설정합니다.
+Sets the minimum time (in seconds) of no control input from the player required for the karma gate to forcefully activate, ignoring non-player Ripple Friends.|카르마 게이트가 플레이어를 제외한 잔물결 친구를 무시하고 강제로 작동하기 위한 플레이어의 최소 조작 미입력 시간(초)을 설정합니다.
+
+Warp Point|워프 포인트
+The warp point waits for Ripple Friends in the room and will not activate while any player is entering control inputs.|워프 포인트는 방 안에 있는 잔물결 친구를 기다리며, 플레이어가 조작을 입력하는 동안에는 작동하지 않습니다.
+Sets the pull radius of the warp point. A value of 1 is similar to the visual radius of the warp point, and 6 is close to the maximum range at which the warp point can pull in creatures.|워프 포인트가 끌어당기는 범위를 설정합니다. 1일 때는 시각적인 워프 포인트의 반지름과 유사하며, 6일 때는 워프 포인트가 생물을 빨아들일 수 있는 최대 범위에 가깝습니다.
+Sets the minimum time (in seconds) of no control input from the player required for the warp point to activate.|워프 포인트가 작동하기 위해 필요한 플레이어의 최소 조작 미입력 시간(초)을 설정합니다.
+Sets the minimum time (in seconds) of no control input from the player required for the warp point to forcefully activate, ignoring non-player Ripple Friends.|워프 포인트가 플레이어를 제외한 잔물결 친구를 무시하고 강제로 작동하기 위한 플레이어의 최소 조작 미입력 시간(초)을 설정합니다.

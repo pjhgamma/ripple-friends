@@ -40,6 +40,16 @@ internal static class Config
     public static Configurable<bool> Pebbles = null!;
     public static Configurable<bool> Moon = null!;
 
+    public static Configurable<bool> RegionGate = null!;
+    public static Configurable<float> RegionGateTile = null!;
+    public static Configurable<float> RegionGateTime = null!;
+    public static Configurable<float> RegionGateForceTime = null!;
+
+    public static Configurable<bool> WarpPoint = null!;
+    public static Configurable<float> WarpPointRadius = null!;
+    public static Configurable<float> WarpPointTime = null!;
+    public static Configurable<float> WarpPointForceTime = null!;
+
     public static void Bind(OptionInterface oi)
     {
         FriendPlayer = oi.config.Bind("FriendPlayer", true, new ConfigurableInfo("Includes players and slugpups as Ripple Friends."));
@@ -77,5 +87,15 @@ internal static class Config
 
         Pebbles = oi.config.Bind("Pebbles", true, new ConfigurableInfo("Pebbles cannot kill players."));
         Moon = oi.config.Bind("Moon", true, new ConfigurableInfo("Players cannot steal Moon's neurons."));
+
+        RegionGate = oi.config.Bind("RegionGate", true, new ConfigurableInfo("The karma gate waits for Ripple Friends in the room and will not activate while any player is entering control inputs."));
+        RegionGateTile = oi.config.Bind("RegionGateTile", 4f, new ConfigurableInfo("Sets the range within which the karma gate begins to close. A value of 0 represents the middle position of the karma gate, and 8 represents the shutter position on the opposite side."));
+        RegionGateTime = oi.config.Bind("RegionGateTime", 3f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player required for the karma gate to activate."));
+        RegionGateForceTime = oi.config.Bind("RegionGateForceTime", 3f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player required for the karma gate to forcefully activate, ignoring non-player Ripple Friends."));
+
+        WarpPoint = oi.config.Bind("WarpPoint", true, new ConfigurableInfo("The warp point waits for Ripple Friends in the room and will not activate while any player is entering control inputs."));
+        WarpPointRadius = oi.config.Bind("WarpPointRadius", 1f, new ConfigurableInfo("Sets the pull radius of the warp point. A value of 1 is similar to the visual radius of the warp point, and 6 is close to the maximum range at which the warp point can pull in creatures."));
+        WarpPointTime = oi.config.Bind("WarpPointTime", 3f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player required for the warp point to activate."));
+        WarpPointForceTime = oi.config.Bind("WarpPointForceTime", 3f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player required for the warp point to forcefully activate, ignoring non-player Ripple Friends."));
     }
 }
