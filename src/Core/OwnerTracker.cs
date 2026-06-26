@@ -43,7 +43,7 @@ internal static class OwnerTracker
 
         _ownerCWT.Remove(source);
 
-        if (target == null || GetThrower(source) == target)
+        if (target == null)
         {
             return;
         }

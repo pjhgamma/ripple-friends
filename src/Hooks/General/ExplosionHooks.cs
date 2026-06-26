@@ -41,6 +41,7 @@ internal class ExplosionHooks : BaseHooks
     private static void On_Explosion_ctor(On.Explosion.orig_ctor orig, Explosion self, Room room, PhysicalObject sourceObject, UnityEngine.Vector2 pos, int lifeTime, float rad, float force, float damage, float stun, float deafen, Creature killTagHolder, float killTagHolderDmgFactor, float minStun, float backgroundNoise)
     {
         ChainOwner(sourceObject, self);
+        ChainOwner(sourceObject, sourceObject);
 
         orig(self, room, sourceObject, pos, lifeTime, rad, force, damage, stun, deafen, killTagHolder, killTagHolderDmgFactor, minStun, backgroundNoise);
     }
