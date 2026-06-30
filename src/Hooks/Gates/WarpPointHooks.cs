@@ -38,6 +38,11 @@ internal class WarpPointHooks : BaseHooks
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate((WarpPoint warpPoint) =>
             {
+                if (warpPoint.strongPull)
+                {
+                    return true;
+                }
+
                 var normal = true;
                 var force = true;
 
