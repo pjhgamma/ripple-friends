@@ -1,4 +1,3 @@
-using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using static RippleFriends.Core.PlayerUtils;
 using static RippleFriends.Core.FriendTracker;
@@ -53,6 +52,8 @@ internal class RegionGateHooks : BaseHooks
     [HookPatch(typeof(On.RegionGate), nameof(On.RegionGate.PlayersStandingStill))]
     private static bool On_RegionGate_PlayersStandingStill(On.RegionGate.orig_PlayersStandingStill orig, RegionGate self)
     {
+        self.startCounter = 60;
+
         var normal = true;
         var force = true;
 
@@ -117,23 +118,17 @@ internal class RegionGateHooks : BaseHooks
         ILLabel l = c.DefineLabel();
 
         if (c.TryGotoNext(
+            i => i.MatchLdarg(0),
+            i => i.MatchLdcI4(0),
+            i => i.MatchStfld<RegionGate>("startCounter"),
+            i => i.MatchBr(out l)
+        ) && c.TryGotoPrev(
             MoveType.After,
             i => i.MatchLdarg(0),
-            i => i.MatchLdfld<RegionGate>("startCounter"),
-            i => i.MatchLdcI4(60),
-            i => i.MatchBle(out _)
+            i => i.MatchCall<RegionGate>("PlayersStandingStill")
         ))
         {
-            l = c.MarkLabel();
-
-            if (c.TryGotoPrev(
-                i => i.MatchLdarg(0),
-                i => i.MatchCallvirt<RegionGate>("get_MeetRequirement"),
-                i => i.MatchBrfalse(out _)
-            ))
-            {
-                c.Emit(OpCodes.Br, l);
-            }
+            c.Next.Operand = l;
         }
     }
 }
