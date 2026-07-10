@@ -1,6 +1,6 @@
 using MonoMod.Cil;
-using static RippleFriends.Core.ILUtils;
-using static RippleFriends.Core.OwnerTracker;
+using static RippleFriends.Hooks.Tracker.OwnerTrackerHooks;
+using static RippleFriends.Utils.ILUtils;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.Items;

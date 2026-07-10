@@ -1,4 +1,4 @@
-using static RippleFriends.Core.FriendTracker;
+using static RippleFriends.Hooks.Tracker.FriendTrackerHooks;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.General;

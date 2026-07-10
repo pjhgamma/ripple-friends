@@ -1,7 +1,7 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using static RippleFriends.Core.FriendTracker;
-using static RippleFriends.Core.PlayerUtils;
+using static RippleFriends.Hooks.Tracker.FriendTrackerHooks;
+using static RippleFriends.Utils.PlayerUtils;
 using RippleFriends.Options;
 using RWCustom;
 using Watcher;
@@ -21,7 +21,7 @@ internal class WarpPointHooks : BaseHooks
     private static void IL_WarpPoint_Update(ILContext il)
     {
         ILCursor c = new(il);
-        ILLabel l = c.DefineLabel();
+        var l = c.DefineLabel();
 
         if (c.TryGotoNext(
             i => i.MatchLdarg(0),

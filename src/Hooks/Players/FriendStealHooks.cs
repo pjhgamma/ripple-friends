@@ -1,5 +1,5 @@
-using static RippleFriends.Core.FriendTracker;
-using static RippleFriends.Core.OwnerTracker;
+using static RippleFriends.Hooks.Tracker.FriendTrackerHooks;
+using static RippleFriends.Hooks.Tracker.OwnerTrackerHooks;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.Players;

@@ -17,8 +17,12 @@ internal class GourmandSlamHooks : DownpourHooks
         if (c.TryGotoNext(
             i => i.MatchIsinst<Creature>()
         ) && c.TryGotoNext(
-            i => i.MatchLdfld<ModManager>("MSC"),
+            i => i.MatchLdsfld<ModManager>("MSC"),
             i => i.MatchBrfalse(out l)
+        ) && c.TryGotoPrev(
+            i => i.MatchLdarg(0),
+            i => i.MatchCall<Player>("get_isGourmand"),
+            i => i.MatchBrtrue(out _)
         ))
         {
             c.Emit(OpCodes.Br, l);

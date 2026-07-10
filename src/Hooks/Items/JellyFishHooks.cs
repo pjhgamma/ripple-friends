@@ -1,6 +1,6 @@
 using MonoMod.Cil;
-using static RippleFriends.Core.ILUtils;
-using static RippleFriends.Core.OwnerTracker;
+using static RippleFriends.Hooks.Tracker.OwnerTrackerHooks;
+using static RippleFriends.Utils.ILUtils;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.Items;
@@ -28,18 +28,18 @@ internal class JellyFishHooks : BaseHooks
 
         if (GetGrabber(self) is Creature creature)
         {
-            SetThrower(self, creature);
+            SetOwner(self, creature);
         }
         else if (!self.Electric)
         {
-            SetThrower(self);
+            SetOwner(self);
         }
     }
 
     [HookPatch(typeof(On.JellyFish), nameof(On.JellyFish.Tossed))]
     private static void On_JellyFish_Tossed(On.JellyFish.orig_Tossed orig, JellyFish self, Creature tossedBy)
     {
-        SetThrower(self, tossedBy);
+        SetOwner(self, tossedBy);
 
         orig(self, tossedBy);
     }

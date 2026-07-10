@@ -1,6 +1,6 @@
 using MonoMod.Cil;
-using static RippleFriends.Core.PlayerUtils;
-using static RippleFriends.Core.FriendTracker;
+using static RippleFriends.Hooks.Tracker.FriendTrackerHooks;
+using static RippleFriends.Utils.PlayerUtils;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.Gates;
@@ -115,7 +115,7 @@ internal class RegionGateHooks : BaseHooks
     private static void IL_RegionGate_Update(ILContext il)
     {
         ILCursor c = new(il);
-        ILLabel l = c.DefineLabel();
+        var l = c.DefineLabel();
 
         if (c.TryGotoNext(
             i => i.MatchLdarg(0),

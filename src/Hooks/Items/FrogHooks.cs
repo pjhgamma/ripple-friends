@@ -1,7 +1,7 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using static RippleFriends.Core.FriendTracker;
-using static RippleFriends.Core.ILUtils;
+using static RippleFriends.Hooks.Tracker.FriendTrackerHooks;
+using static RippleFriends.Utils.ILUtils;
 using RippleFriends.Options;
 using Watcher;
 
@@ -42,7 +42,7 @@ internal class FrogHooks : WatcherHooks
         {
             c.Emit(OpCodes.Ldarg_0);
             c.Emit(OpCodes.Ldloc_1);
-            c.EmitDelegate(IsFriend);
+            c.EmitDelegate<Func<AbstractCreature, AbstractCreature, bool>>(IsFriend);
             c.Emit(OpCodes.Brtrue, l);
         }
     }

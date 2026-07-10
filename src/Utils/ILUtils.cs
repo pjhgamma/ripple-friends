@@ -1,9 +1,10 @@
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using static RippleFriends.Core.FriendTracker;
+using static RippleFriends.Hooks.Tracker.FriendTrackerHooks;
+using static RippleFriends.Hooks.Tracker.OwnerTrackerHooks;
 
-namespace RippleFriends.Core;
+namespace RippleFriends.Utils;
 
 internal static class ILUtils
 {
@@ -40,10 +41,8 @@ internal static class ILUtils
                 {
                     c.Emit(OpCodes.Ldloc, abstractPhysicalObject1);
                     c.IncomingLabels.ToList().ForEach(l => l.Target = c.Prev);
-                    c.EmitDelegate((AbstractPhysicalObject abstractPhysicalObject) => abstractPhysicalObject.realizedObject);
                     c.Emit(OpCodes.Ldloc, abstractPhysicalObject2);
-                    c.EmitDelegate((AbstractPhysicalObject abstractPhysicalObject) => abstractPhysicalObject.realizedObject);
-                    c.EmitDelegate(IsFriend);
+                    c.EmitDelegate<Func<AbstractCreature, AbstractCreature, bool>>(IsFriend);
                     c.Emit(OpCodes.Brtrue, l);
                 }
             }
@@ -68,6 +67,36 @@ internal static class ILUtils
                 }
                 return creature;
             });
+        }
+    }
+
+    public static void IL_Explosion_HitByWeapon<T>(ILContext il, string name) where T : UpdatableAndDeletable
+    {
+        ILCursor c = new(il);
+
+        if (c.TryGotoNext(
+            i => i.MatchLdarg(0),
+            i => i.MatchCall<T>(name)
+        ))
+        {
+            c.Emit(OpCodes.Ldarg_1);
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate(ChainOwner);
+        }
+    }
+
+    public static void IL_Explosion_HitByExplosion<T>(ILContext il, string name) where T : UpdatableAndDeletable
+    {
+        ILCursor c = new(il);
+
+        if (c.TryGotoNext(
+            i => i.MatchLdarg(0),
+            i => i.MatchCall<T>(name)
+        ))
+        {
+            c.Emit(OpCodes.Ldarg_2);
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate(ChainOwner);
         }
     }
 

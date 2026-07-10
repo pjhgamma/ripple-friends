@@ -1,6 +1,6 @@
 using MonoMod.Cil;
 using MoreSlugcats;
-using static RippleFriends.Core.ILUtils;
+using static RippleFriends.Utils.ILUtils;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.Items;

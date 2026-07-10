@@ -239,7 +239,7 @@ internal class RemixMenu : RemixMenuBuilder
         AddLabel("Ripple friends do not affect each other.");
         AddLabel("This option itself does nothing, but targets to be affected by the other options.");
         AddLabel("The Ripple Friends relationship applies bidirectionally, excluding oneself.");
-        AddCheckBox(Config.FriendPlayer, "Players");
+        AddCheckBox(Config.FriendSlugcat, "Slugcats");
         AddCheckBox(Config.FriendCreature, "Friendly Creatures");
         AddCheckBox(Config.FriendNeutralCreature, "Neutral Creatures");
         AddCheckBox(Config.FriendIterator, "Iterators");
@@ -247,6 +247,7 @@ internal class RemixMenu : RemixMenuBuilder
         AddCheckBox(Config.FriendArena, "Arena");
 
         AddTitle("General");
+
         AddCheckBox(Config.Collision, "Collisions");
         AddCheckBox(Config.Weapon, "Weapons");
         AddCheckBox(Config.Explosion, "Explosions");
@@ -256,9 +257,11 @@ internal class RemixMenu : RemixMenuBuilder
         SetColumns(4);
 
         AddTitle("Players");
-        var GrabPlayerCheckBox = AddCheckBox(Config.GrabPlayer, "Grab Player");
-        AddFloatSlider(Config.GrabPlayerTime, span: 2f, master: GrabPlayerCheckBox);
+
+        var grabPlayerCheckBox = AddCheckBox(Config.GrabPlayer, "Grab Player");
+        AddFloatSlider(Config.GrabPlayerTime, span: 2f, master: grabPlayerCheckBox);
         AddCheckBox(Config.NoStealing, "No Stealing");
+
         if (ModManager.MSC)
         {
             AddCheckBox(Config.GourmandSlam, "Gourmand Slam");
@@ -268,17 +271,20 @@ internal class RemixMenu : RemixMenuBuilder
         }
 
         AddTitle("Items");
+
         AddCheckBox(Config.Mushroom, "Mushroom");
         AddCheckBox(Config.FirecrackerPlant, "Cherrybomb");
         AddCheckBox(Config.Bee, "Beehive");
         AddCheckBox(Config.JellyFish, "Jellyfish");
         AddCheckBox(Config.Snail, "Snail");
         AddCheckBox(Config.TubeWorm, "Grappling Worm");
+
         if (ModManager.MSC)
         {
             AddCheckBox(Config.FireEgg, "Fire Egg");
             AddCheckBox(Config.SingularityBomb, "Singularity Bomb");
         }
+
         if (ModManager.Watcher)
         {
             AddCheckBox(Config.Pomegranate, "Pomegranate");
@@ -288,6 +294,7 @@ internal class RemixMenu : RemixMenuBuilder
         SetColumns(2);
 
         AddTitle("Iterators");
+
         AddCheckBox(Config.Pebbles, "Pebbles");
         AddCheckBox(Config.Moon, "Moon");
 
@@ -296,18 +303,20 @@ internal class RemixMenu : RemixMenuBuilder
         SetColumns(4);
 
         AddTitle("Gates");
-        var RegionGateCheckBox = AddCheckBox(Config.RegionGate, "Karma Gate");
-        AddFloatSlider(Config.RegionGateTile, span: 3f, max: 8f, master: RegionGateCheckBox);
+
+        var regionGateCheckBox = AddCheckBox(Config.RegionGate, "Karma Gate");
+        AddFloatSlider(Config.RegionGateTile, span: 3f, max: 8f, master: regionGateCheckBox);
         AddNewColumn(1f);
-        AddFloatSlider(Config.RegionGateTime, span: 1.5f, master: RegionGateCheckBox);
-        AddFloatSlider(Config.RegionGateForceTime, span: 1.5f, master: RegionGateCheckBox);
+        AddFloatSlider(Config.RegionGateTime, span: 1.5f, master: regionGateCheckBox);
+        AddFloatSlider(Config.RegionGateForceTime, span: 1.5f, master: regionGateCheckBox);
+
         if (ModManager.Watcher)
         {
-            var WarpPointCheckBox = AddCheckBox(Config.WarpPoint, "Warp Point");
-            AddFloatSlider(Config.WarpPointRadius, span: 3f, max: 6f, master: WarpPointCheckBox);
+            var warpPointCheckBox = AddCheckBox(Config.WarpPoint, "Warp Point");
+            AddFloatSlider(Config.WarpPointRadius, span: 3f, max: 6f, master: warpPointCheckBox);
             AddNewColumn(1f);
-            AddFloatSlider(Config.WarpPointTime, span: 1.5f, master: WarpPointCheckBox);
-            AddFloatSlider(Config.WarpPointForceTime, span: 1.5f, master: WarpPointCheckBox);
+            AddFloatSlider(Config.WarpPointTime, span: 1.5f, master: warpPointCheckBox);
+            AddFloatSlider(Config.WarpPointForceTime, span: 1.5f, master: warpPointCheckBox);
         }
     }
 }

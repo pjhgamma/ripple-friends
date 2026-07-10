@@ -1,5 +1,5 @@
 using MonoMod.Cil;
-using static RippleFriends.Core.ILUtils;
+using static RippleFriends.Utils.ILUtils;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.Items;
@@ -18,5 +18,11 @@ internal class SingularityBombHooks : DownpourHooks
     private static void IL_SingularityBomb_Explode(ILContext il)
     {
         IL_Branch_Ripple(il);
+    }
+
+    [HookPatch(typeof(IL.MoreSlugcats.SingularityBomb), nameof(IL.MoreSlugcats.SingularityBomb.HitByWeapon))]
+    private static void IL_ScavengerBomb_HitByWeapon(ILContext il)
+    {
+        IL_Explosion_HitByWeapon<MoreSlugcats.SingularityBomb>(il, "CreateFear");
     }
 }

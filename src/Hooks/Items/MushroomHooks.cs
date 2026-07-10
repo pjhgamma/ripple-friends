@@ -1,5 +1,6 @@
-using static RippleFriends.Core.OwnerTracker;
-using static RippleFriends.Core.PlayerUtils;
+using static RippleFriends.Hooks.Tracker.FriendTrackerHooks;
+using static RippleFriends.Hooks.Tracker.OwnerTrackerHooks;
+using static RippleFriends.Utils.PlayerUtils;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.Items;
@@ -8,11 +9,22 @@ internal class MushroomHooks : BaseHooks
 {
     protected override bool IsOptionEnabled => Config.Mushroom.Value;
 
-    private static void MulticastMushroom(Player owner)
+    public static IEnumerable<AbstractCreature> GetOtherSlugcats(Player source)
     {
-        foreach (var player in GetOtherPlayers(owner))
+        foreach (var abstractCreature in GetTrackedFriends(source.room?.game?.Players, (abstractCreature) => IsSlugcat(abstractCreature) && IsFriend(abstractCreature, source)))
         {
-            player.mushroomCounter += 320;
+            yield return abstractCreature;
+        }
+    }
+
+    private static void MulticastMushroom(Player source)
+    {
+        foreach (var abstractCreature in GetOtherSlugcats(source))
+        {
+            if (abstractCreature.realizedCreature is Player player)
+            {
+                player.mushroomCounter += 320;
+            }
         }
     }
 
@@ -30,7 +42,7 @@ internal class MushroomHooks : BaseHooks
     [HookPatch(typeof(On.Spear), nameof(On.Spear.HitSomethingWithoutStopping))]
     private static void On_Spear_HitSomethingWithoutStopping(On.Spear.orig_HitSomethingWithoutStopping orig, Spear self, PhysicalObject obj, BodyChunk chunk, PhysicalObject.Appendage appendage)
     {
-        if (GetThrower(self) is Player player && obj is Mushroom)
+        if (GetOwner(self)?.realizedCreature is Player player && obj is Mushroom)
         {
             MulticastMushroom(player);
         }
@@ -48,9 +60,9 @@ internal class MushroomHooks : BaseHooks
             return;
         }
 
-        foreach (var player in GetOtherPlayers(self))
+        foreach (var abstractPlayer in GetOtherSlugcats(self))
         {
-            if (!player.inShortcut)
+            if (abstractPlayer.realizedCreature is Player player && !player.inShortcut)
             {
                 self.mushroomCounter = player.mushroomCounter;
 

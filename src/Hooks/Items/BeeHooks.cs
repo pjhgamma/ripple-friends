@@ -1,7 +1,8 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using static RippleFriends.Core.FriendTracker;
-using static RippleFriends.Core.OwnerTracker;
+using static RippleFriends.Hooks.Tracker.FriendTrackerHooks;
+using static RippleFriends.Hooks.Tracker.OwnerTrackerHooks;
+using static RippleFriends.Utils.ILUtils;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.Items;
@@ -32,6 +33,28 @@ internal class BeeHooks : BaseHooks
         }
     }
 
+    [HookPatch(typeof(On.SporePlant.Bee), nameof(On.SporePlant.Bee.HuntChunkIfPossible))]
+    private static bool On_SporePlant_Bee_HuntChunkIfPossible(On.SporePlant.Bee.orig_HuntChunkIfPossible orig, SporePlant.Bee self, BodyChunk potentialHuntChunk)
+    {
+        if (IsFriend(potentialHuntChunk.owner, self))
+        {
+            return false;
+        }
+        return orig(self, potentialHuntChunk);
+    }
+
+    [HookPatch(typeof(IL.SporePlant), nameof(IL.SporePlant.HitByWeapon))]
+    private static void IL_FirecrackerPlant_HitByWeapon(ILContext il)
+    {
+        IL_Explosion_HitByWeapon<SporePlant>(il, "BeeTrigger");
+    }
+
+    [HookPatch(typeof(IL.SporePlant), nameof(IL.SporePlant.HitByExplosion))]
+    private static void IL_FirecrackerPlant_HitByExplosion(ILContext il)
+    {
+        IL_Explosion_HitByExplosion<SporePlant>(il, "BeeTrigger");
+    }
+
     [HookPatch(typeof(IL.JokeRifle), nameof(IL.JokeRifle.Use))]
     private static void IL_JokeRifle_Use(ILContext il)
     {
@@ -46,18 +69,8 @@ internal class BeeHooks : BaseHooks
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate((SporePlant.Bee bee, JokeRifle jokeRifle) =>
             {
-                SetThrower(bee, GetGrabber(jokeRifle));
+                SetOwner(bee, GetGrabber(jokeRifle));
             });
         }
-    }
-
-    [HookPatch(typeof(On.SporePlant.Bee), nameof(On.SporePlant.Bee.HuntChunkIfPossible))]
-    private static bool On_SporePlant_Bee_HuntChunkIfPossible(On.SporePlant.Bee.orig_HuntChunkIfPossible orig, SporePlant.Bee self, BodyChunk potentialHuntChunk)
-    {
-        if (IsFriend(potentialHuntChunk.owner, self))
-        {
-            return false;
-        }
-        return orig(self, potentialHuntChunk);
     }
 }

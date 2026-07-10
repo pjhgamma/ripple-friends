@@ -1,10 +1,8 @@
-using static RippleFriends.Options.RemixMenu;
-
 namespace RippleFriends.Options;
 
 internal static class Config
 {
-    public static Configurable<bool> FriendPlayer = null!;
+    public static Configurable<bool> FriendSlugcat = null!;
     public static Configurable<bool> FriendCreature = null!;
     public static Configurable<bool> FriendNeutralCreature = null!;
     public static Configurable<bool> FriendIterator = null!;
@@ -52,7 +50,7 @@ internal static class Config
 
     public static void Bind(OptionInterface oi)
     {
-        FriendPlayer = oi.config.Bind("FriendPlayer", true, new ConfigurableInfo("Includes players and slugpups as Ripple Friends."));
+        FriendSlugcat = oi.config.Bind("FriendSlugcat", true, new ConfigurableInfo("Includes players and slugpups as Ripple Friends."));
         FriendCreature = oi.config.Bind("FriendCreature", true, new ConfigurableInfo("Includes friendly creatures, such as tamed lizards and friendly scavengers, as Ripple Friends."));
         FriendNeutralCreature = oi.config.Bind("FriendNeutralCreature", false, new ConfigurableInfo("Includes ignoring creatures, such as neutralized lizards and rain deer, as Ripple Friends."));
         FriendIterator = oi.config.Bind("FriendIterator", true, new ConfigurableInfo("Includes Iterators as Ripple Friends."));
@@ -67,12 +65,12 @@ internal static class Config
         GrabPlayerTime = oi.config.Bind("GrabPlayerTime", 3f, new ConfigurableInfo("Sets the maximum control input time (in seconds) during which a player cannot be grabbed."));
         NoStealing = oi.config.Bind("NoStealing", true, new ConfigurableInfo("Will not steal objects grabbed by Ripple Friends. If the No Stealing option is enabled in Jolly Co-op, players never steal grabbed objects from each other."));
 
-        GourmandSlam = oi.config.Bind("GourmandSlam", true, new ConfigurableInfo("Will not take damage from a Gourmand's roll, slide, or slam. If the Spears Miss option is enabled in Jolly Co-op, players never damage each other."));
-        ArtificerParry = oi.config.Bind("ArtificerParry", true, new ConfigurableInfo("Will not be stunned by a Artificer's parry. If the Spears Miss option is enabled in Jolly Co-op, players never stun each other."));
+        GourmandSlam = oi.config.Bind("GourmandSlam", true, new ConfigurableInfo("Will not take damage from a Gourmand's roll, slide, or slam. If the Spears Miss option is enabled in Jolly Co-op, slugcats never damage each other."));
+        ArtificerParry = oi.config.Bind("ArtificerParry", true, new ConfigurableInfo("Will not be stunned by a Artificer's parry. If the Spears Miss option is enabled in Jolly Co-op, slugcats never stun each other."));
         SaintTongue = oi.config.Bind("SaintTongue", true, new ConfigurableInfo("Will not be caught by the tongue shot by a Saint."));
         SaintAttunement = oi.config.Bind("SaintAttunement", true, new ConfigurableInfo("Will not be instantly killed by a Saint's attunement."));
 
-        Mushroom = oi.config.Bind("Mushroom", true, new ConfigurableInfo("Share the effects of mushrooms among players."));
+        Mushroom = oi.config.Bind("Mushroom", true, new ConfigurableInfo("Will share the effects of mushrooms among slugcat Ripple Friends."));
         FirecrackerPlant = oi.config.Bind("FirecrackerPlant", true, new ConfigurableInfo("Will not be stunned by a cherrybomb thrown by Ripple Friends. However, this does not apply to the final explosion. This also applies to joke rifle bullets and chain explosions."));
         Bee = oi.config.Bind("Bee", true, new ConfigurableInfo("Will not be caught by bees triggered by Ripple Friends. However, this does not apply to thoese spawned by approaching a beehive. This also applies to joke rifle bullets."));
         JellyFish = oi.config.Bind("JellyFish", true, new ConfigurableInfo("Will not be caught or stunned by the tentacles of a jellyfish held by a Ripple Friends, and will not be stunned by a thrown jellyfish."));

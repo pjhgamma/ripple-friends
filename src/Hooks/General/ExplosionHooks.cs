@@ -1,6 +1,6 @@
 using MonoMod.Cil;
-using static RippleFriends.Core.ILUtils;
-using static RippleFriends.Core.OwnerTracker;
+using static RippleFriends.Hooks.Tracker.OwnerTrackerHooks;
+using static RippleFriends.Utils.ILUtils;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.General;
@@ -15,28 +15,6 @@ internal class ExplosionHooks : BaseHooks
         IL_Branch_Ripple(il);
     }
 
-    [HookPatch(typeof(On.PhysicalObject), nameof(On.PhysicalObject.HitByWeapon))]
-    private static void On_PhysicalObject_HitByWeapon(On.PhysicalObject.orig_HitByWeapon orig, PhysicalObject self, Weapon weapon)
-    {
-        if (self is Weapon)
-        {
-            ChainOwner(weapon, self);
-        }
-
-        orig(self, weapon);
-    }
-
-    [HookPatch(typeof(On.PhysicalObject), nameof(On.PhysicalObject.HitByExplosion))]
-    private static void On_PhysicalObject_HitByExplosion(On.PhysicalObject.orig_HitByExplosion orig, PhysicalObject self, float hitFac, Explosion explosion, int hitChunk)
-    {
-        if (self is Weapon)
-        {
-            ChainOwner(explosion, self);
-        }
-
-        orig(self, hitFac, explosion, hitChunk);
-    }
-
     [HookPatch(typeof(On.Explosion), nameof(On.Explosion.ctor))]
     private static void On_Explosion_ctor(On.Explosion.orig_ctor orig, Explosion self, Room room, PhysicalObject sourceObject, UnityEngine.Vector2 pos, int lifeTime, float rad, float force, float damage, float stun, float deafen, Creature killTagHolder, float killTagHolderDmgFactor, float minStun, float backgroundNoise)
     {
@@ -44,5 +22,23 @@ internal class ExplosionHooks : BaseHooks
         ChainOwner(sourceObject, sourceObject);
 
         orig(self, room, sourceObject, pos, lifeTime, rad, force, damage, stun, deafen, killTagHolder, killTagHolderDmgFactor, minStun, backgroundNoise);
+    }
+
+    [HookPatch(typeof(IL.ExplosiveSpear), nameof(IL.ExplosiveSpear.HitByExplosion))]
+    private static void IL_ExplosiveSpear_HitByExplosion(ILContext il)
+    {
+        IL_Explosion_HitByExplosion<ExplosiveSpear>(il, "Ignite");
+    }
+
+    [HookPatch(typeof(IL.ScavengerBomb), nameof(IL.ScavengerBomb.HitByWeapon))]
+    private static void IL_ScavengerBomb_HitByWeapon(ILContext il)
+    {
+        IL_Explosion_HitByWeapon<ScavengerBomb>(il, "InitiateBurn");
+    }
+
+    [HookPatch(typeof(IL.ScavengerBomb), nameof(IL.ScavengerBomb.HitByExplosion))]
+    private static void IL_ScavengerBomb_HitByExplosion(ILContext il)
+    {
+        IL_Explosion_HitByExplosion<ScavengerBomb>(il, "InitiateBurn");
     }
 }

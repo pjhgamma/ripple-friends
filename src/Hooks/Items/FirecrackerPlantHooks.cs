@@ -1,6 +1,5 @@
 using MonoMod.Cil;
-using static RippleFriends.Core.ILUtils;
-using static RippleFriends.Core.OwnerTracker;
+using static RippleFriends.Utils.ILUtils;
 using RippleFriends.Options;
 
 namespace RippleFriends.Hooks.Items;
@@ -15,17 +14,15 @@ internal class FirecrackerPlantHooks : BaseHooks
         IL_Branch_Ripple(il);
     }
 
+    [HookPatch(typeof(IL.FirecrackerPlant), nameof(IL.FirecrackerPlant.HitByExplosion))]
+    private static void IL_FirecrackerPlant_HitByExplosion(ILContext il)
+    {
+        IL_Explosion_HitByExplosion<FirecrackerPlant>(il, "Ignite");
+    }
+
     [HookPatch(typeof(IL.JokeRifle), nameof(IL.JokeRifle.Use))]
     private static void IL_JokeRifle_Use(ILContext il)
     {
         IL_Branch_Ripple(il);
-    }
-
-    [HookPatch(typeof(On.FirecrackerPlant), nameof(On.FirecrackerPlant.HitByExplosion))]
-    private static void On_FirecrackerPlant_HitByExplosion(On.FirecrackerPlant.orig_HitByExplosion orig, FirecrackerPlant self, float hitFac, Explosion explosion, int hitChunk)
-    {
-        ChainOwner(explosion, self);
-
-        orig(self, hitFac, explosion, hitChunk);
     }
 }
