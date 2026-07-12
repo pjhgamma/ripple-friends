@@ -227,9 +227,9 @@ internal class RemixMenu : RemixMenuBuilder
 
         OpTab generalTab = new(this, Translate("General"));
         OpTab interactionsTab = new(this, Translate("Interactions"));
-        OpTab assistsTab = new(this, Translate("Assists"));
+        OpTab gatesTab = new(this, Translate("Gates"));
 
-        Tabs = [generalTab, interactionsTab, assistsTab];
+        Tabs = [generalTab, interactionsTab, gatesTab];
 
         SetCurrentTab(generalTab);
 
@@ -298,25 +298,40 @@ internal class RemixMenu : RemixMenuBuilder
         AddCheckBox(Config.Pebbles, "Pebbles");
         AddCheckBox(Config.Moon, "Moon");
 
-        SetCurrentTab(assistsTab);
+        SetCurrentTab(gatesTab);
 
         SetColumns(4);
 
-        AddTitle("Gates");
+        AddTitle("Shelters");
 
-        var regionGateCheckBox = AddCheckBox(Config.RegionGate, "Karma Gate");
-        AddFloatSlider(Config.RegionGateTile, span: 3f, max: 8f, master: regionGateCheckBox);
-        AddNewColumn(1f);
+        var shelterDoorCheckBox = AddCheckBox(Config.ShelterDoor, "Activation Delay");
+        AddFloatSlider(Config.ShelterDoorTime, span: 3f, master: shelterDoorCheckBox);
+        var shelterDoorForceCheckBox = AddCheckBox(Config.ShelterDoorForce, "Force Activation", shelterDoorCheckBox);
+        AddFloatSlider(Config.ShelterDoorForceTime, span: 3f, max: 10f, master: shelterDoorForceCheckBox);
+        AddCheckBox(Config.ShelterDoorWarp, "Warp");
+        AddCheckBox(Config.ShelterDoorRevival, "Revival");
+
+        AddTitle("Karma Gates");
+
+        var regionGateCheckBox = AddCheckBox(Config.RegionGate, "Activation Delay");
         AddFloatSlider(Config.RegionGateTime, span: 1.5f, master: regionGateCheckBox);
-        AddFloatSlider(Config.RegionGateForceTime, span: 1.5f, master: regionGateCheckBox);
+        AddFloatSlider(Config.RegionGateTile, span: 1.5f, max: 8f, master: regionGateCheckBox);
+        var regionGateForceCheckBox = AddCheckBox(Config.RegionGateForce, "Force Activation", regionGateCheckBox);
+        AddFloatSlider(Config.RegionGateForceTime, span: 3f, max: 10f, master: regionGateForceCheckBox);
+        AddCheckBox(Config.RegionGateWarp, "Warp");
+        AddCheckBox(Config.RegionGateRevival, "Revival");
 
         if (ModManager.Watcher)
         {
-            var warpPointCheckBox = AddCheckBox(Config.WarpPoint, "Warp Point");
-            AddFloatSlider(Config.WarpPointRadius, span: 3f, max: 6f, master: warpPointCheckBox);
-            AddNewColumn(1f);
+            AddTitle("Warp Points");
+
+            var warpPointCheckBox = AddCheckBox(Config.WarpPoint, "Activation Delay");
             AddFloatSlider(Config.WarpPointTime, span: 1.5f, master: warpPointCheckBox);
-            AddFloatSlider(Config.WarpPointForceTime, span: 1.5f, master: warpPointCheckBox);
+            AddFloatSlider(Config.WarpPointRadius, span: 1.5f, max: 6f, master: warpPointCheckBox);
+            var warpPointForceCheckBox = AddCheckBox(Config.WarpPointForce, "Force Activation", master: warpPointCheckBox);
+            AddFloatSlider(Config.WarpPointForceTime, span: 3f, max: 10f, master: warpPointForceCheckBox);
+            AddCheckBox(Config.WarpPointWarp, "Warp");
+            AddCheckBox(Config.WarpPointRevival, "Revival");
         }
     }
 }

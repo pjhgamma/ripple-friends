@@ -139,6 +139,20 @@ internal class FriendTrackerHooks : BaseHooks
 
     public static bool IsAnyFriend(UpdatableAndDeletable? source) => IsAnyFriend((object?)source);
 
+    public static IEnumerable<Creature> GetRoomFriends(Room? room)
+    {
+        foreach (var physicalObjects in room?.physicalObjects ?? [])
+        {
+            foreach (var physicalObject in physicalObjects)
+            {
+                if (physicalObject is Creature creature && IsAnyFriend(creature))
+                {
+                    yield return creature;
+                }
+            }
+        }
+    }
+
     public static IEnumerable<AbstractCreature> GetTrackedFriends()
     {
         foreach (var abstractCreature in _friendSet)
