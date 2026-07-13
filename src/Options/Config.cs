@@ -103,23 +103,23 @@ internal static class Config
         ShelterDoorTime = oi.config.Bind("ShelterDoorTime", 1f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player for the shelter to activate. A value of 0.5 represents the time when Rain World Remix is disabled, and a value of 1 represents when it is enabled."));
         ShelterDoorForce = oi.config.Bind("ShelterDoorForce", true, new ConfigurableInfo("The shelter forcefully activates, ignoring non-player Ripple Friends."));
         ShelterDoorForceTime = oi.config.Bind("ShelterDoorForceTime", 5f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player for the shelter to forcefully activate, ignoring non-player Ripple Friends."));
-        ShelterDoorWarp = oi.config.Bind("ShelterDoorWarp", false, new ConfigurableInfo("The shelter warps Ripple Friends when it activates."));
-        ShelterDoorRevival = oi.config.Bind("ShelterDoorRevival", false, new ConfigurableInfo("The shelter revives Ripple Friends when it activates."));
+        ShelterDoorWarp = oi.config.Bind("ShelterDoorWarp", true, new ConfigurableInfo("The shelter warps Ripple Friends when it activates."));
+        ShelterDoorRevival = oi.config.Bind("ShelterDoorRevival", true, new ConfigurableInfo("The shelter revives Ripple Friends when it activates."));
 
         RegionGate = oi.config.Bind("RegionGate", true, new ConfigurableInfo("The karma gate waits for tracked Ripple Friends (slugpups, or lizards) and will not activate while any player is entering control inputs."));
         RegionGateTime = oi.config.Bind("RegionGateTime", 4f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player required for the karma gate to activate."));
         RegionGateTile = oi.config.Bind("RegionGateTile", 4f, new ConfigurableInfo("Sets the range within which the karma gate begins to close. A value of 0 represents the middle position of the karma gate, and 8 represents the shutter position on the opposite side."));
         RegionGateForce = oi.config.Bind("RegionGateForce", true, new ConfigurableInfo("The karma gate forcefully activates, ignoring non-player Ripple Friends."));
         RegionGateForceTime = oi.config.Bind("RegionGateForceTime", 5f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player required for the karma gate to forcefully activate, ignoring non-player Ripple Friends."));
-        RegionGateWarp = oi.config.Bind("RegionGateWarp", false, new ConfigurableInfo("The karma gate warps Ripple Friends when it activates."));
-        RegionGateRevival = oi.config.Bind("RegionGateRevival", false, new ConfigurableInfo("The karma gate revives Ripple Friends when it activates."));
+        RegionGateWarp = oi.config.Bind("RegionGateWarp", true, new ConfigurableInfo("The karma gate warps Ripple Friends when it activates."));
+        RegionGateRevival = oi.config.Bind("RegionGateRevival", true, new ConfigurableInfo("The karma gate revives Ripple Friends when it activates."));
 
         WarpPoint = oi.config.Bind("WarpPoint", true, new ConfigurableInfo("The warp point waits for tracked Ripple Friends (slugpups, or lizards) and will not activate while any player is entering control inputs."));
         WarpPointTime = oi.config.Bind("WarpPointTime", 4f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player required for the warp point to activate."));
         WarpPointRadius = oi.config.Bind("WarpPointRadius", 1f, new ConfigurableInfo("Sets the pull radius of the warp point. A value of 1 is similar to the visual radius of the warp point, and 6 is close to the maximum range at which the warp point can pull in creatures."));
         WarpPointForce = oi.config.Bind("WarpPointForce", true, new ConfigurableInfo("The warp point forcefully activates, ignoring non-player Ripple Friends."));
         WarpPointForceTime = oi.config.Bind("WarpPointForceTime", 5f, new ConfigurableInfo("Sets the minimum time (in seconds) of no control input from the player required for the warp point to forcefully activate, ignoring non-player Ripple Friends."));
-        WarpPointWarp = oi.config.Bind("WarpPointWarp", false, new ConfigurableInfo("The warp point warps Ripple Friends when it activates."));
-        WarpPointRevival = oi.config.Bind("WarpPointRevival", false, new ConfigurableInfo("The warp point revives Ripple Friends when it activates."));
+        WarpPointWarp = oi.config.Bind("WarpPointWarp", true, new ConfigurableInfo("The warp point warps Ripple Friends when it activates."));
+        WarpPointRevival = oi.config.Bind("WarpPointRevival", true, new ConfigurableInfo("The warp point revives Ripple Friends when it activates."));
     }
 }
