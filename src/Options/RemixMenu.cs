@@ -105,7 +105,25 @@ internal abstract class RemixMenuBuilder : OptionInterface
         }
     }
 
-    protected OpCheckBox? AddCheckBox(Configurable<bool> configurable, string? text = null, OpCheckBox? master = null)
+    protected void BindMasters(UIconfig? target, params OpCheckBox?[] masters)
+    {
+        if (target == null || masters == null || masters.Length == 0)
+        {
+            return;
+        }
+
+        target.greyedOut = masters.Any(master => master?.GetValueBool() == false);
+
+        foreach (var master in masters)
+        {
+            master?.OnChange += delegate
+            {
+                target.greyedOut = masters.Any(master => master?.GetValueBool() == false);
+            };
+        }
+    }
+
+    protected OpCheckBox? AddCheckBox(Configurable<bool> configurable, string? text = null)
     {
         if (_currentTab == null)
         {
@@ -131,15 +149,6 @@ internal abstract class RemixMenuBuilder : OptionInterface
             description = desc
         };
 
-        if (master != null)
-        {
-            checkBox.greyedOut = !master.GetValueBool();
-            master.OnChange += delegate
-            {
-                checkBox.greyedOut = !master.GetValueBool();
-            };
-        }
-
         if (text != null)
         {
             _currentTab.AddItems(label);
@@ -155,11 +164,11 @@ internal abstract class RemixMenuBuilder : OptionInterface
         return checkBox;
     }
 
-    protected void AddFloatSlider(Configurable<float> configurable, float span = 1, float min = 0f, float max = 5f, string? text = null, OpCheckBox? master = null)
+    protected OpFloatSlider? AddFloatSlider(Configurable<float> configurable, float span = 1, float min = 0f, float max = 5f, string? text = null)
     {
         if (_currentTab == null)
         {
-            return;
+            return null;
         }
 
         if (_currentColumn > _columns - span + 0.5f)
@@ -189,15 +198,6 @@ internal abstract class RemixMenuBuilder : OptionInterface
             max = max,
         };
 
-        if (master != null)
-        {
-            slider.greyedOut = !master.GetValueBool();
-            master.OnChange += delegate
-            {
-                slider.greyedOut = !master.GetValueBool();
-            };
-        }
-
         if (text != null)
         {
             _currentTab.AddItems(label);
@@ -209,6 +209,8 @@ internal abstract class RemixMenuBuilder : OptionInterface
         {
             AddNewLine(1.5f);
         }
+
+        return slider;
     }
 }
 
@@ -258,8 +260,9 @@ internal class RemixMenu : RemixMenuBuilder
 
         AddTitle("Players");
 
-        var grabPlayerCheckBox = AddCheckBox(Config.GrabPlayer, "Grab Player");
-        AddFloatSlider(Config.GrabPlayerTime, span: 2f, master: grabPlayerCheckBox);
+        var grabPlayer = AddCheckBox(Config.GrabPlayer, "Grab Player");
+        var grabPlayerTime = AddFloatSlider(Config.GrabPlayerTime, span: 2f);
+        BindMasters(grabPlayerTime, grabPlayer);
         AddCheckBox(Config.NoStealing, "No Stealing");
 
         if (ModManager.MSC)
@@ -305,19 +308,26 @@ internal class RemixMenu : RemixMenuBuilder
         AddTitle("Shelters");
 
         var shelterDoorCheckBox = AddCheckBox(Config.ShelterDoor, "Activation Delay");
-        AddFloatSlider(Config.ShelterDoorTime, span: 3f, master: shelterDoorCheckBox);
-        var shelterDoorForceCheckBox = AddCheckBox(Config.ShelterDoorForce, "Force Activation", shelterDoorCheckBox);
-        AddFloatSlider(Config.ShelterDoorForceTime, span: 3f, max: 10f, master: shelterDoorForceCheckBox);
+        var shelterDoorTime = AddFloatSlider(Config.ShelterDoorTime, span: 3f);
+        BindMasters(shelterDoorTime, shelterDoorCheckBox);
+        var shelterDoorForceCheckBox = AddCheckBox(Config.ShelterDoorForce, "Force Activation");
+        BindMasters(shelterDoorForceCheckBox, shelterDoorCheckBox);
+        var shelterDoorForceTime = AddFloatSlider(Config.ShelterDoorForceTime, span: 3f, max: 10f);
+        BindMasters(shelterDoorForceTime, shelterDoorCheckBox, shelterDoorForceCheckBox);
         AddCheckBox(Config.ShelterDoorWarp, "Warp");
         AddCheckBox(Config.ShelterDoorRevival, "Revival");
 
         AddTitle("Karma Gates");
 
         var regionGateCheckBox = AddCheckBox(Config.RegionGate, "Activation Delay");
-        AddFloatSlider(Config.RegionGateTime, span: 1.5f, master: regionGateCheckBox);
-        AddFloatSlider(Config.RegionGateTile, span: 1.5f, max: 8f, master: regionGateCheckBox);
-        var regionGateForceCheckBox = AddCheckBox(Config.RegionGateForce, "Force Activation", regionGateCheckBox);
-        AddFloatSlider(Config.RegionGateForceTime, span: 3f, max: 10f, master: regionGateForceCheckBox);
+        var regionGateTime = AddFloatSlider(Config.RegionGateTime, span: 1.5f);
+        BindMasters(regionGateTime, regionGateCheckBox);
+        var regionGateTile = AddFloatSlider(Config.RegionGateTile, span: 1.5f, max: 8f);
+        BindMasters(regionGateTile, regionGateCheckBox);
+        var regionGateForceCheckBox = AddCheckBox(Config.RegionGateForce, "Force Activation");
+        BindMasters(regionGateForceCheckBox, regionGateCheckBox);
+        var regionGateForceTime = AddFloatSlider(Config.RegionGateForceTime, span: 3f, max: 10f);
+        BindMasters(regionGateForceTime, regionGateCheckBox, regionGateForceCheckBox);
         AddCheckBox(Config.RegionGateWarp, "Warp");
         AddCheckBox(Config.RegionGateRevival, "Revival");
 
@@ -326,10 +336,14 @@ internal class RemixMenu : RemixMenuBuilder
             AddTitle("Warp Points");
 
             var warpPointCheckBox = AddCheckBox(Config.WarpPoint, "Activation Delay");
-            AddFloatSlider(Config.WarpPointTime, span: 1.5f, master: warpPointCheckBox);
-            AddFloatSlider(Config.WarpPointRadius, span: 1.5f, max: 6f, master: warpPointCheckBox);
-            var warpPointForceCheckBox = AddCheckBox(Config.WarpPointForce, "Force Activation", master: warpPointCheckBox);
-            AddFloatSlider(Config.WarpPointForceTime, span: 3f, max: 10f, master: warpPointForceCheckBox);
+            var warpPointTime = AddFloatSlider(Config.WarpPointTime, span: 1.5f);
+            BindMasters(warpPointTime, warpPointCheckBox);
+            var warpPointRadius = AddFloatSlider(Config.WarpPointRadius, span: 1.5f, max: 6f);
+            BindMasters(warpPointRadius, warpPointCheckBox);
+            var warpPointForceCheckBox = AddCheckBox(Config.WarpPointForce, "Force Activation");
+            BindMasters(warpPointForceCheckBox, warpPointCheckBox);
+            var warpPointForceTime = AddFloatSlider(Config.WarpPointForceTime, span: 3f, max: 10f);
+            BindMasters(warpPointForceTime, warpPointCheckBox, warpPointForceCheckBox);
             AddCheckBox(Config.WarpPointWarp, "Warp");
             AddCheckBox(Config.WarpPointRevival, "Revival");
         }
