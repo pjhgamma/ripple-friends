@@ -149,12 +149,7 @@ internal static class GateUtils<T> where T : UpdatableAndDeletable
 
     public static void WarpAndRevive(T gate, Func<T, Creature, bool> isInGate, bool warp, bool revival)
     {
-        if (gate.room is not Room room)
-        {
-            return;
-        }
-
-        if (warp && room.game is { } game && room.abstractRoom is { } abstractRoom)
+        if (gate.room is Room room && room.game is { } game && room.abstractRoom is { } abstractRoom)
         {
             WorldCoordinate position = new();
 
@@ -168,21 +163,18 @@ internal static class GateUtils<T> where T : UpdatableAndDeletable
                 }
             }
 
-            foreach (var abstractCreature in GetTrackedFriends(game.Players, (abstractCreature) => true))
+            foreach (var abstractCreature in GetTrackedFriends(game.Players, IsAnyFriend))
             {
-                if ((abstractCreature.realizedCreature is not Creature creature || !isInGate(gate, creature)) && (!abstractCreature.state.dead || revival))
+                var creature = abstractCreature.realizedCreature;
+
+                if (warp && (creature == null || !isInGate(gate, creature)) && (!abstractCreature.state.dead || revival))
                 {
                     Warp(abstractCreature, abstractRoom, position);
                 }
-            }
-
-        }
-
-        foreach (var creature in GetRoomFriends(room))
-        {
-            if (creature.dead)
-            {
-                Revive(creature);
+                if (revival && creature != null && creature.dead && abstractCreature.Room == abstractRoom)
+                {
+                    Revive(creature);
+                }
             }
         }
     }
