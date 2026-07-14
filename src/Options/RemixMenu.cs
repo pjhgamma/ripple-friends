@@ -238,8 +238,8 @@ internal class RemixMenu : RemixMenuBuilder
         SetColumns(3);
 
         AddLabel("Ripple Friends", FLabelAlignment.Center, bigText: true);
-        AddLabel("Ripple friends do not affect each other.");
-        AddLabel("This option itself does nothing, but targets to be affected by the other options.");
+        AddLabel("Slugcats and Ripple Friends do not affect each other.");
+        AddLabel("This option itself does nothing, but designates the targets for other options.");
         AddLabel("The Ripple Friends relationship applies bidirectionally, excluding oneself.");
         AddCheckBox(Config.FriendSlugcat, "Slugcats");
         AddCheckBox(Config.FriendCreature, "Friendly Creatures");

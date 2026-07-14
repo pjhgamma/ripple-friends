@@ -65,7 +65,7 @@ internal static class Config
     {
         FriendSlugcat = oi.config.Bind("FriendSlugcat", true, new ConfigurableInfo("Includes players and slugpups as Ripple Friends."));
         FriendCreature = oi.config.Bind("FriendCreature", true, new ConfigurableInfo("Includes friendly creatures, such as tamed lizards and friendly scavengers, as Ripple Friends."));
-        FriendNeutralCreature = oi.config.Bind("FriendNeutralCreature", false, new ConfigurableInfo("Includes ignoring creatures, such as neutralized lizards and rain deer, as Ripple Friends."));
+        FriendNeutralCreature = oi.config.Bind("FriendNeutralCreature", false, new ConfigurableInfo("Includes neutral creatures, such as neutralized lizards and rain deer, as Ripple Friends."));
         FriendIterator = oi.config.Bind("FriendIterator", true, new ConfigurableInfo("Includes Iterators as Ripple Friends."));
         FriendGrabbed = oi.config.Bind("FriendGrabbed", true, new ConfigurableInfo("Includes objects grabbed by Ripple Friends as well."));
         FriendArena = oi.config.Bind("FriendArena", false, new ConfigurableInfo("Activates the Ripple Friends relationship in the Arena."));
@@ -74,27 +74,33 @@ internal static class Config
         Weapon = oi.config.Bind("Weapon", true, new ConfigurableInfo("Will not be hit by most weapons thrown by Ripple Friends."));
         Explosion = oi.config.Bind("Explosion", true, new ConfigurableInfo("Will not be hit by most explosions caused by Ripple Friends. This also applies to chain explosions."));
 
-        GrabPlayer = oi.config.Bind("GrabPlayer", true, new ConfigurableInfo("Cannot grab a player when they enter a control input."));
+        GrabPlayer = oi.config.Bind("GrabPlayer", true, new ConfigurableInfo("Cannot grab a player while they are entering control inputs."));
         GrabPlayerTime = oi.config.Bind("GrabPlayerTime", 3f, new ConfigurableInfo("Sets the maximum control input time (in seconds) during which a player cannot be grabbed."));
-        NoStealing = oi.config.Bind("NoStealing", true, new ConfigurableInfo("Will not steal objects grabbed by Ripple Friends. If the No Stealing option is enabled in Jolly Co-op, players never steal grabbed objects from each other."));
+        NoStealing = oi.config.Bind("NoStealing", true, new ConfigurableInfo("Will not steal objects grabbed by Ripple Friends. If the No Stealing option is enabled in Jolly Co-op, players will never steal grabbed objects from each other."));
 
-        GourmandSlam = oi.config.Bind("GourmandSlam", true, new ConfigurableInfo("Will not take damage from a Gourmand's roll, slide, or slam. If the Spears Miss option is enabled in Jolly Co-op, slugcats never damage each other."));
-        ArtificerParry = oi.config.Bind("ArtificerParry", true, new ConfigurableInfo("Will not be stunned by a Artificer's parry. If the Spears Miss option is enabled in Jolly Co-op, slugcats never stun each other."));
-        SaintTongue = oi.config.Bind("SaintTongue", true, new ConfigurableInfo("Will not be caught by the tongue shot by a Saint."));
+        GourmandSlam = oi.config.Bind("GourmandSlam", true, new ConfigurableInfo("Will not take damage from a Gourmand's roll, slide, or slam. If the Spears Miss option is enabled in Jolly Co-op, slugcats will never damage each other."));
+        ArtificerParry = oi.config.Bind("ArtificerParry", true, new ConfigurableInfo("Will not be stunned by an Artificer's parry. If the Spears Miss option is enabled in Jolly Co-op, slugcats will never stun each other."));
+        SaintTongue = oi.config.Bind("SaintTongue", true, new ConfigurableInfo("Will not be caught by a Saint's tongue."));
         SaintAttunement = oi.config.Bind("SaintAttunement", true, new ConfigurableInfo("Will not be instantly killed by a Saint's attunement."));
 
         Mushroom = oi.config.Bind("Mushroom", true, new ConfigurableInfo("Will share the effects of mushrooms among slugcat Ripple Friends."));
         FirecrackerPlant = oi.config.Bind("FirecrackerPlant", true, new ConfigurableInfo("Will not be stunned by a cherrybomb thrown by Ripple Friends. However, this does not apply to the final explosion. This also applies to joke rifle bullets and chain explosions."));
-        Bee = oi.config.Bind("Bee", true, new ConfigurableInfo("Will not be caught by bees triggered by Ripple Friends. However, this does not apply to thoese spawned by approaching a beehive. This also applies to joke rifle bullets."));
-        JellyFish = oi.config.Bind("JellyFish", true, new ConfigurableInfo("Will not be caught or stunned by the tentacles of a jellyfish held by a Ripple Friends, and will not be stunned by a thrown jellyfish."));
-        Snail = oi.config.Bind("Snail", true, new ConfigurableInfo("Will not be stunned by the next popping from a snail thrown, hit, or killed by Ripple Friends."));
-        TubeWorm = oi.config.Bind("TubeWorm", true, new ConfigurableInfo("Will not be caught by the tongue of a grappling worm shot by Ripple Friends."));
+        Bee = oi.config.Bind("Bee", true, new ConfigurableInfo("Will not be caught by bees triggered by Ripple Friends. However, this does not apply to those spawned by approaching a beehive. This also applies to joke rifle bullets."));
+        JellyFish = oi.config.Bind("JellyFish", true, new ConfigurableInfo("Will not be caught or stunned by the tentacles of a jellyfish held by a Ripple Friend, and will not be stunned by a thrown jellyfish."));
+        Snail = oi.config.Bind("Snail", true, new ConfigurableInfo("Will not be stunned by the next pop from a snail thrown, hit, or killed by a Ripple Friend."));
+        TubeWorm = oi.config.Bind("TubeWorm", true, new ConfigurableInfo("Will not be caught by a grappling worm's tongue used by Ripple Friends."));
 
-        FireEgg = oi.config.Bind("FireEgg", true, new ConfigurableInfo("Will not be attached to by a fire egg thrown by Ripple Friends. However, this does not apply to the explosion."));
-        SingularityBomb = oi.config.Bind("SingularityBomb", true, new ConfigurableInfo("Will not be sucked or instantly killed by a singularity bomb thrown by Ripple Friends. However, this does not apply to the explosion."));
+        if (ModManager.MSC)
+        {
+            FireEgg = oi.config.Bind("FireEgg", true, new ConfigurableInfo("Will not be attached by a fire egg thrown by Ripple Friends. However, this does not apply to the explosion."));
+            SingularityBomb = oi.config.Bind("SingularityBomb", true, new ConfigurableInfo("Will not be sucked in or instantly killed by a singularity bomb thrown by Ripple Friends. However, this does not apply to the explosion."));
+        }
 
-        Pomegranate = oi.config.Bind("Pomegranate", true, new ConfigurableInfo("Will not take damage from a pomegranate dropped by Ripple Friends."));
-        Frog = oi.config.Bind("Frog", true, new ConfigurableInfo("Will not be attached to by a frog thrown by Ripple Friends."));
+        if (ModManager.Watcher)
+        {
+            Pomegranate = oi.config.Bind("Pomegranate", true, new ConfigurableInfo("Will not take damage from a pomegranate dropped by Ripple Friends."));
+            Frog = oi.config.Bind("Frog", true, new ConfigurableInfo("Will not be attached by a frog thrown by Ripple Friends."));
+        }
 
         Pebbles = oi.config.Bind("Pebbles", true, new ConfigurableInfo("Pebbles cannot kill players."));
         Moon = oi.config.Bind("Moon", true, new ConfigurableInfo("Players cannot steal Moon's neurons."));
