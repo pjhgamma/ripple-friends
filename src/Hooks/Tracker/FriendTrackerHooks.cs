@@ -157,15 +157,18 @@ internal class FriendTrackerHooks : BaseHooks
     {
         foreach (var abstractCreature in _friendSet)
         {
-            yield return abstractCreature;
+            if (IsAnyFriend(abstractCreature))
+            {
+                yield return abstractCreature;
+            }
         }
     }
 
-    public static IEnumerable<AbstractCreature> GetTrackedFriends(List<AbstractCreature>? abstractPlayers, Func<AbstractCreature, bool> predicate)
+    public static IEnumerable<AbstractCreature> GetTrackedFriends(List<AbstractCreature>? abstractPlayers)
     {
-        foreach (var abstractPlayer in abstractPlayers ?? [])
+        if (Config.FriendSlugcat.Value)
         {
-            if (predicate(abstractPlayer))
+            foreach (var abstractPlayer in abstractPlayers ?? [])
             {
                 yield return abstractPlayer;
             }
@@ -173,10 +176,7 @@ internal class FriendTrackerHooks : BaseHooks
 
         foreach (var abstractCreature in GetTrackedFriends())
         {
-            if (predicate(abstractCreature))
-            {
-                yield return abstractCreature;
-            }
+            yield return abstractCreature;
         }
     }
 

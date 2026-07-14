@@ -163,7 +163,7 @@ internal static class GateUtils<T> where T : UpdatableAndDeletable
                 }
             }
 
-            foreach (var abstractCreature in GetTrackedFriends(game.Players, IsAnyFriend))
+            foreach (var abstractCreature in GetTrackedFriends(game.Players))
             {
                 var creature = abstractCreature.realizedCreature;
 

@@ -11,7 +11,7 @@ internal class MushroomHooks : BaseHooks
     [HookPatch(typeof(On.Player), nameof(On.Player.Update))]
     private static void On_Player_Update(On.Player.orig_Update orig, Player self, bool eu)
     {
-        foreach (var abstractSlugcat in GetTrackedFriends(self.room?.game?.AlivePlayers, (abstractCreature) => IsSlugcat(abstractCreature) && IsFriend(abstractCreature, self)))
+        foreach (var abstractSlugcat in GetTrackedFriends(self.room?.game?.AlivePlayers))
         {
             if (abstractSlugcat.realizedCreature is Player slugcat && !slugcat.dead && !slugcat.inShortcut)
             {
